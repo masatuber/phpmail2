@@ -3,7 +3,7 @@ session_start();
 
 // 入力画面からのアクセスでなければ、戻す
 if (!isset($_SESSION['form'])) {
-    header('Location: /index.php');
+    header('Location: index.php');
     exit();
 } else {
     $post = $_SESSION['form'];
@@ -22,14 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     EOT;
      //var_dump($body);
     //exit();
-    $mails= mb_send_mail($to, $subject, $body, "From: {$from}");
     sleep(2);
+    $mails= mb_send_mail($to, $subject, $body, "From: {$from}");
+    
     // セッションを消してお礼画面へ
-     var_dump($_SESSION);
-     exit();
+    //  var_dump($_SESSION);
+    //  exit();
     unset($_SESSION['form']);
-    header("Location: /thanks.html");
-    // exit();
+    if($mails){
+        header("Location: thanks.html");
+        exit();
+        echo "メールを送信しました";
+    } else {
+        echo "メールの送信に失敗しました";
+    }
+    
 }
 ?>
 <!DOCTYPE html>
@@ -43,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <!-- お問合せフォーム画面 -->
     <div class="container">
-        <form action="confirm.php" method="POST">
+        <form action="" method="POST">
             <p>お問い合わせ</p>
             <div class="form-group">
                 <div class="row">
@@ -77,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="row">
                 <div class="col-9 offset-3">
-                    <a href="/index.php">戻る</a>
+                    <a href="index.php">戻る</a>
                     <button type="submit">送信する</button>
                 </div>
             </div>
