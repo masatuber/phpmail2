@@ -1,13 +1,13 @@
-version: '3.8'
+# version: '3.8'
 
 services:
-  php8:
+  php8.3mail:
     build: .
     ports:
       - "8030:80"
     volumes:
       - ./src:/var/www/html
-      - ./php.ini:/user/local/etc/php/php.ini
+      - ./php.ini:/usr/local/etc/php/php.ini
 
 
 # ローカルの php.ini を上書き
